@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 
 modules:
   - type: files
@@ -47,11 +47,11 @@ modules:
 
   - type: os-release
     properties:
-      #      ID: fedora
-      #     ID_LIKE: iulbos
       NAME: PuskasOS
       PRETTY_NAME: PuskasOS
       HOME_URL: "https://puskas.hu"
+      #      ID: fedora
+      #     ID_LIKE: iulbos
 
   - type: initramfs
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
