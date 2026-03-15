@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+# yaml-language-server: $schema=https://schema.blue-build.org/module-stage-list-v1.json
 
 modules:
   - type: files
@@ -7,13 +7,25 @@ modules:
       - source: system
         destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
-  - type: dnf
+  - type: os-release
+    properties:
+      NAME: PuskasOS
+      PRETTY_NAME: PuskasOS
+      HOME_URL: "https://puskas.hu"
+      #      ID: fedora
+      #     ID_LIKE: iulbos
+
+  - type: initramfs
+  - type: signing # this sets up the proper policy & signing files for signed images to work fully
+
+
+  #- type: dnf
     # repos:
     #   copr:
     #     - zalnars/iulbos
     #    - atim/starship
-    install:
-      packages:
+  #  install:
+  #    packages:
         # add starship/fish/terminal environment
         #- fish
         #- starship
@@ -21,8 +33,8 @@ modules:
         # minimal apps
       #   - btop
       #   - neovim
-    remove:
-      packages:
+  #  remove:
+  #    packages:
         # example: removing firefox (in favor of the flatpak)
         # "firefox" is the main package, "firefox-langpacks" is a dependency
         #- firefox
@@ -44,14 +56,3 @@ modules:
   #    - RUN dnf swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld -y
   #    - RUN dnf swap mesa-va-drivers.i686 mesa-va-drivers-freeworld.i686 -y
   #    - RUN dnf swap mesa-vdpau-drivers.i686 mesa-vdpau-drivers-freeworld.i686 -y
-
-  - type: os-release
-    properties:
-      NAME: PuskasOS
-      PRETTY_NAME: PuskasOS
-      HOME_URL: "https://puskas.hu"
-      #      ID: fedora
-      #     ID_LIKE: iulbos
-
-  - type: initramfs
-  - type: signing # this sets up the proper policy & signing files for signed images to work fully
