@@ -19,7 +19,7 @@ modules:
   - type: initramfs
   - type: containerfile
     snippets:
-      - RUN bootc container set-image ghcr.io/zalnars/puskasos:br-stable-10
+      - LABEL org.containers.bootc.image="ghcr.io/zalnars/puskasos:br-stable-10"
   - type: signing # this sets up the proper policy & signing files for signed images to work fully
 
 
