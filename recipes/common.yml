@@ -18,6 +18,7 @@ modules:
         #- fish
         #- starship
 
+<<<<<<< Updated upstream
         # minimal apps
       #   - btop
       #   - neovim
@@ -32,6 +33,40 @@ modules:
     #    packages:
     #      - old: fedora-logos
     #        new: iulbos-logos
+=======
+  - type: initramfs
+  - type: containerfile
+    snippets:
+      - LABEL org.containers.bootc.image="ghcr.io/zalnars/puskasos:br-stable-10"
+  - type: signing # this sets up the proper policy & signing files for signed images to work fully
+
+  - type: dnf
+    repos:
+      copr:
+        - imput/helium
+    #    - atim/starship
+    install:
+      packages:
+        - helium-bin
+  # add starship/fish/terminal environment
+  #- fish
+  #- starship
+
+  # minimal apps
+  #   - btop
+  #   - neovim
+  #  remove:
+  #    packages:
+  # example: removing firefox (in favor of the flatpak)
+  # "firefox" is the main package, "firefox-langpacks" is a dependency
+  #- firefox
+  #- firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
+  #replace:
+  #  - from-repo: copr:copr.fedorainfracloud.org:zalnars:iulbos
+  #    packages:
+  #      - old: fedora-logos
+  #        new: iulbos-logos
+>>>>>>> Stashed changes
 
   #- type: containerfile
   #  snippets:
