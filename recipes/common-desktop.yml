@@ -1,13 +1,13 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
 
 modules:
-  #  - type: dnf
-  #    repos:
-  #      copr:
-  #        - v8v88v8v88/helium
-  #    install:
-  #      packages:
-  #        - helium
+  - type: dnf
+    repos:
+      copr:
+        - imput/helium
+    install:
+      packages:
+        - helium-bin
 
   - type: default-flatpaks
     configurations:

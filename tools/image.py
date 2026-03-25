@@ -30,7 +30,7 @@ class App:
         self.container_ref_var = tk.StringVar(
             value="ghcr.io/zalnars/puskasos:br-stable-10"
         )
-        ttk.Entry(builder_frame, textvariable=self.container_ref_var, width=55).pack(
+        ttk.Entry(builder_frame, textvariable=self.container_ref_var, width=45).pack(
             side=tk.LEFT, padx=(0, 10), fill=tk.X, expand=True
         )
 
@@ -65,8 +65,11 @@ class App:
         self.flash_btn.pack(side=tk.RIGHT)
 
         # Status/Log Section
-        log_frame = ttk.LabelFrame(frame, text="Activity Logs", padding=10)
+        log_frame = ttk.LabelFrame(frame, text="Progress", padding=10)
         log_frame.pack(fill=tk.BOTH, expand=True)
+
+        self.progress_bar = ttk.Progressbar(log_frame, mode="indeterminate")
+        self.progress_bar.pack(fill=tk.X, pady=(0, 10))
 
         self.log_text = scrolledtext.ScrolledText(
             log_frame,
@@ -131,6 +134,7 @@ class App:
         self.build_btn.state(["disabled"])
         self.pull_btn.state(["disabled"])
         self.flash_btn.state(["disabled"])
+        self.progress_bar.start()
         t = threading.Thread(target=self.build_thread, daemon=True)
         t.start()
 
@@ -138,6 +142,7 @@ class App:
         self.build_btn.state(["disabled"])
         self.pull_btn.state(["disabled"])
         self.flash_btn.state(["disabled"])
+        self.progress_bar.start()
         t = threading.Thread(target=self.pull_thread, daemon=True)
         t.start()
 
@@ -148,6 +153,7 @@ class App:
             self.container_ref_var.get().strip()
         ]
         self.run_command(cmd, "Pulling container image")
+        self.root.after(0, self.stop_progress)
         self.root.after(0, self.enable_buttons)
 
     def build_thread(self):
@@ -194,6 +200,7 @@ class App:
         )
 
         self.run_command(cmd, "Building bootc raw image")
+        self.root.after(0, self.stop_progress)
         self.root.after(0, self.enable_buttons)
 
     def start_flash(self):
@@ -213,6 +220,7 @@ class App:
         self.build_btn.state(["disabled"])
         self.pull_btn.state(["disabled"])
         self.flash_btn.state(["disabled"])
+        self.progress_bar.start()
         t = threading.Thread(target=self.flash_thread, args=(target_disk,), daemon=True)
         t.start()
 
@@ -236,40 +244,14 @@ class App:
 
         self.append_log(f"Found image to flash: {target_image}\n")
 
-        # 1. Flash the image
-        # Note: status=progress spam output too much in pipe, we use plain status.
-        dd_cmd = [
-            "pkexec",
-            "dd",
-            f"if={target_image}",
-            f"of={target_disk}",
-            "bs=16M",
-            "oflag=sync",
-        ]
-        if not self.run_command(dd_cmd, "Writing Image to Disk (dd)"):
-            self.root.after(0, self.enable_buttons)
-            return
-
-        # 2. Fix GPT
-        self.run_command(
-            ["pkexec", "sgdisk", "-e", target_disk], "Fixing GPT Backup Table"
-        )
-
-        # 3. Reload partitions cache
-        self.run_command(
-            ["pkexec", "partprobe", target_disk], "Reloading Partition Tables"
-        )
-        time.sleep(2)  # Give kernel time to see new partition boundaries natively
-
-        # 4. Find last partition dynamically and resize
+        # Find last partition dynamically for use in privileged commands
+        part_num = None
         try:
             lsblk_cmd = ["lsblk", "-J", target_disk]
             output = subprocess.check_output(lsblk_cmd).decode("utf-8")
             data = json.loads(output)
             children = data.get("blockdevices", [])[0].get("children", [])
-            if not children:
-                self.append_log("No partitions found to resize on the target disk.\n")
-            else:
+            if children:
                 last_part = children[-1]
                 last_part_name = last_part.get("name")
                 target_disk_name = target_disk.replace("/dev/", "")
@@ -282,33 +264,47 @@ class App:
                 self.append_log(
                     f"Detected last partition: /dev/{last_part_name} (Partition Number: {part_num})\n"
                 )
-
-                parted_cmd = [
-                    "pkexec",
-                    "parted",
-                    "-s",
-                    "-a",
-                    "opt",
-                    target_disk,
-                    "resizepart",
-                    part_num,
-                    "100%",
-                ]
-                self.run_command(
-                    parted_cmd, f"Resizing Partition {part_num} to fill disk"
-                )
-
-                # Signal change again
-                self.run_command(
-                    ["pkexec", "partprobe", target_disk],
-                    "Updating Kernel with Resized Boundaries",
-                )
+            else:
+                self.append_log("No partitions found to resize on the target disk.\n")
 
         except Exception as e:
             self.append_log(f"Exception during partition resize calculation: {e}\n")
 
+        # Combine all privileged operations into a single pkexec call
+        # This ensures the user is only prompted for their password once
+        script_commands = [
+            f"dd if={target_image} of={target_disk} bs=16M oflag=sync status=progress",
+            f"sgdisk -e {target_disk}",
+            f"partprobe {target_disk}",
+        ]
+
+
+        if part_num:
+            script_commands.append(f"umount {target_disk}{part_num} || true")
+            script_commands.append(f"partprobe {target_disk}")
+            script_commands.append(
+                f"parted -s -a opt {target_disk} resizepart {part_num} 100%"
+            )
+            script_commands.append(f"partprobe {target_disk}")
+
+        combined_script = " && ".join(script_commands)
+
+        combined_cmd = [
+            "pkexec",
+            "bash",
+            "-c",
+            combined_script,
+        ]
+
+        self.run_command(combined_cmd, "Flashing and Configuring Disk")
+
+        time.sleep(2)  # Give kernel time to see new partition boundaries natively
+        self.root.after(0, self.stop_progress)
         self.root.after(0, self.enable_buttons)
         self.append_log("\n--- COMPLETE ---\n")
+
+    def stop_progress(self):
+        self.progress_bar.stop()
 
     def enable_buttons(self):
         self.build_btn.state(["!disabled"])
