@@ -45,6 +45,11 @@ modules:
   #    - RUN dnf swap mesa-va-drivers.i686 mesa-va-drivers-freeworld.i686 -y
   #    - RUN dnf swap mesa-vdpau-drivers.i686 mesa-vdpau-drivers-freeworld.i686 -y
 
+  - type: systemd
+    system:
+      disabled:
+        - NetworkManager-wait-online.service
+        
   - type: os-release
     properties:
       NAME: PuskasOS
