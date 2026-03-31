@@ -32,7 +32,8 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          - recipe.yml
+          - base/minimal.yml
+          - base/kde.yml
     steps:
       # the build is fully handled by the reusable github action
       - name: Build Custom Image

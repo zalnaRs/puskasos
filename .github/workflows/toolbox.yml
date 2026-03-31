@@ -1,0 +1,47 @@
+name: Build toolbox Images
+
+on:
+  workflow_dispatch:
+    inputs:
+      containerfiles:
+        description: 'Comma-separated paths to the Containerfile(s) to build'
+        required: true
+        default: 'toolbox/webprog/Containerfile'  # Change this default to match your structure
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        containerfile: ${{ fromJson('["' + inputs.containerfiles + '"]') }}
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Cache Docker layers
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+
+    - name: Build Docker image
+      run: |
+        containerfile_path="${{ matrix.containerfile }}"
+        image_name="toolbox-$(basename $containerfile_path)"
+        echo "Building image for $containerfile_path"
+        docker buildx build --file "$containerfile_path" --tag "$image_name:latest" --load .
+
+    - name: Push Docker image to GitHub Container Registry
+      if: github.event_name == 'push'
+      run: |
+        containerfile_path="${{ matrix.containerfile }}"
+        image_name="ghcr.io/${{ github.repository }}/$(basename $containerfile_path):latest"
+        echo ${{ github.token }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        docker buildx build --file "$containerfile_path" --tag "$image_name" --push .
