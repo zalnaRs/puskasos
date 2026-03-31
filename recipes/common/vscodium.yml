@@ -6,7 +6,7 @@ modules:
     snippets:
       - |
         RUN set -euo pipefail; \
-        sudo tee -a /etc/yum.repos.d/vscodium.repo << 'EOF'
+        tee -a /etc/yum.repos.d/vscodium.repo << 'EOF'
         [gitlab.com_paulcarroty_vscodium_repo]
         name=gitlab.com_paulcarroty_vscodium_repo
         baseurl=https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/rpms/
@@ -16,4 +16,4 @@ modules:
         gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
         metadata_expire=1h
         EOF; \
-        sudo dnf install codium -y
+        dnf install codium -y
