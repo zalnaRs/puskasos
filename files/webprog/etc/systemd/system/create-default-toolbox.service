@@ -1,0 +1,17 @@
+[Unit]
+Description=Create default toolbox container on first boot
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=!/var/lib/toolbox/.puskasos-toolbox-created
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -lc '\
+set -euo pipefail; \
+mkdir -p /var/lib/toolbox; \
+/usr/bin/podman pull ghcr.io/zalnars/toolbox-webprog:latest; \
+/usr/bin/toolbox create --image ghcr.io/zalnars/toolbox-webprog:latest --container webprog && touch /var/lib/toolbox/.puskasos-toolbox-created \
+'
+
+[Install]
+WantedBy=multi-user.target

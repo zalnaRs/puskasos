@@ -1,0 +1,23 @@
+FROM ghcr.io/zalnars/puskasos:minimal
+
+RUN set -euxo pipefail; \
+    dnf -y install \
+      python3 \
+      python3-devel \
+      python3-pip \
+      python3-setuptools \
+      python3-wheel \
+      gcc \
+      gcc-c++ \
+      make \
+      openssl-devel \
+      libffi-devel \
+      zlib-devel @development-tools; \
+    curl -L https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh; \
+    chmod +x ./dotnet-install.sh; \
+    ./dotnet-install.sh --version latest --runtime aspnetcore; \
+    dnf -y clean all; \
+    rm -rf /var/cache/dnf; \
+    rm -rf ./dotnet-install.sh; \
+
+CMD ["/bin/bash"]
