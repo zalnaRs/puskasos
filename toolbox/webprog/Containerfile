@@ -1,9 +1,9 @@
 FROM quay.io/fedora/fedora-toolbox:44
 
 RUN set -euxo pipefail; \
-    dnf install -y flatpak-xdg-open \
-    rm -rf /usr/bin/xdg-open \
-    ln -s /usr/bin/flatpak-xdg-open /usr/bin/xdg-open \
+    dnf install -y flatpak-xdg-open; \
+    rm -rf /usr/bin/xdg-open; \
+    ln -s /usr/bin/flatpak-xdg-open /usr/bin/xdg-open; \
     dnf -y install \
       python3 \
       python3-devel \
