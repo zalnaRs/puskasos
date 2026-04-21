@@ -20,7 +20,7 @@ jobs:
       fail-fast: true
       matrix:
         containerfile: ${{ fromJson(inputs.containerfiles) }}
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
