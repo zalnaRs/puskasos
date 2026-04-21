@@ -6,7 +6,7 @@ on:
       containerfiles:
         description: 'Comma-separated paths to the Containerfile(s) to build'
         required: true
-        default: 'toolbox/webprog/Containerfile'  # Change this default to match your structure
+        default: '["toolbox/webprog/Containerfile"]'  # Change this default to match your structure
   push:
     branches:
       - stable
@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        containerfile: ${{ fromJson('["' + inputs.containerfiles + '"]') }}
+        containerfile: ${{ fromJson(inputs.containerfiles) }}
     
     steps:
     - name: Checkout repository
