@@ -15,7 +15,8 @@ RUN set -euxo pipefail; \
       make \
       openssl-devel \
       libffi-devel \
-      zlib-devel cmake @development-tools; \
+      zlib-devel cmake @development-tools \
+      https://github.com/VSCodium/vscodium/releases/download/1.112.01907/codium-1.112.01907-el8.x86_64.rpm; \
     curl -L https://dot.net/v1/dotnet-install.sh -o dotnet-install.sh; \
     chmod +x ./dotnet-install.sh; \
     ./dotnet-install.sh --version latest --runtime aspnetcore; \
