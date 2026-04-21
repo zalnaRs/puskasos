@@ -1,4 +1,4 @@
-FROM ghcr.io/zalnars/puskasos:minimal
+FROM ghcr.io/zalnars/puskasos:br-stable-minimal-10
 
 RUN set -euxo pipefail; \
     dnf -y install \
