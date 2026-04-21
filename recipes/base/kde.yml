@@ -4,6 +4,8 @@
 name: puskasos
 # description will be included in the image's metadata
 description: The best operating system ever.
+alt-tags:
+  - kde
 
 # the base image to build on top of (FROM) and the version tag to use
 base-image: quay.io/almalinuxorg/atomic-desktop-kde
@@ -11,5 +13,5 @@ base-image: quay.io/almalinuxorg/atomic-desktop-kde
 image-version: 10 # latest is also supported if you want new updates ASAP
 
 modules:
-  - from-file: common.yml
-  - from-file: common-desktop.yml
+  - from-file: common/common.yml
+  - from-file: common/common-desktop.yml
