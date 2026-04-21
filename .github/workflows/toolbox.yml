@@ -44,7 +44,6 @@ jobs:
           docker buildx build --file "$containerfile_path" --tag "$image_name:latest" --load .
 
       - name: Push Docker image to GitHub Container Registry
-        if: github.event_name == 'push'
         run: |
           containerfile_path="${{ matrix.containerfile }}"
           image_name="ghcr.io/${{ github.repository }}/$(basename $(dirname $containerfile_path)):latest"
