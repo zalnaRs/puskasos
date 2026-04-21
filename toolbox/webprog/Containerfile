@@ -21,6 +21,6 @@ RUN set -euxo pipefail; \
     ./dotnet-install.sh --version latest --runtime aspnetcore; \
     dnf -y clean all; \
     rm -rf /var/cache/dnf; \
-    rm -rf ./dotnet-install.sh; \
+    rm -rf ./dotnet-install.sh;
 
 CMD ["/bin/bash"]
