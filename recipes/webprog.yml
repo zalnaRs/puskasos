@@ -13,16 +13,16 @@ base-image: ghcr.io/zalnars/puskasos:kde
 image-version: latest # latest is also supported if you want new updates ASAP
 
 modules:
-  - type: dnf 
+  - type: dnf
     install:
       packages:
         - toolbox
         - podman
         - podman-compose
-       # - distrobox
+        # - distrobox
         - git
 
-  - from-file: common/vscodium.yml
+  # - from-file: common/vscodium.yml
 
   - type: systemd
     system:
