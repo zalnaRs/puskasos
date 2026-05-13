@@ -13,6 +13,8 @@ modules:
 
   - type: systemd
     system:
+      enabled:
+        - bootloader-update.service
       disabled:
         - NetworkManager-wait-online.service
 
