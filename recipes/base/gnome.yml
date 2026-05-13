@@ -15,3 +15,10 @@ image-version: 10 # latest is also supported if you want new updates ASAP
 modules:
   - from-file: common/common.yml
   - from-file: common/common-desktop.yml
+
+  - type: default-flatpaks
+    configurations:
+      - notify: false
+        scope: system
+        install:
+          - com.github.tchx84.Flatseal
