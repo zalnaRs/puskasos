@@ -14,4 +14,10 @@ image-version: 10 # latest is also supported if you want new updates ASAP
 
 modules:
   - from-file: common/common.yml
+
+  - type: files
+    files:
+      - source: kde/system
+        destination: /
+
   - from-file: common/common-desktop.yml
