@@ -1,8 +1,8 @@
-FROM ghcr.io/zalnars/puskasos:br-minimal-stable-10
-RUN dnf install -y anaconda anaconda-install-env-deps anaconda-dracut dracut-config-generic dracut-network net-tools squashfs-tools grub2-efi-x64-cdboot python3-mako lorax-templates-* biosdevname prefixdevname && dnf clean install
+FROM ghcr.io/zalnars/puskasos:br-stable-minimal-10
+RUN dnf install -y anaconda anaconda-gui anaconda-install-env-deps anaconda-dracut dracut-config-generic dracut-network net-tools squashfs-tools grub2-efi-x64-cdboot python3-mako lorax-templates-* biosdevname prefixdevname && dnf clean all
 
 RUN dnf reinstall -y shim-x64
 
-RUN mkdir -p /boot/efi && cp -ra /usr/lib/efi/*/*/EFI / /boot/EFI
+#RUN mkdir -p /boot/efi && cp -ra /usr/lib/efi/*/*/EFI /boot/efi
 
 RUN mkdir /var/mnt
