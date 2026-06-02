@@ -16,6 +16,15 @@ modules:
   - from-file: common/common.yml
   - from-file: common/common-desktop.yml
 
+  - type: gnome-extensions
+    install:
+      - AppIndicator and KStatusNotifierItem Support
+      - 1160 # dash to panel
+
+  - type: gschema-overrides
+    include:
+      - dashtopanel.gschema.override
+
   - type: default-flatpaks
     configurations:
       - notify: false
