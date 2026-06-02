@@ -11,6 +11,12 @@ modules:
     snippets:
       - LABEL org.containers.bootc.image="ghcr.io/zalnars/puskasos:br-stable-10"
 
+  - type: dnf
+    install:
+      packages:
+        - podman-compose
+        - podman-docker
+
   - type: systemd
     system:
       enabled:
