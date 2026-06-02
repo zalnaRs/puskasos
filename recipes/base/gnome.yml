@@ -25,6 +25,11 @@ modules:
     include:
       - dashtopanel.gschema.override
 
+  - type: systemd
+    system:
+      enabled:
+        - gdm.service
+
   - type: default-flatpaks
     configurations:
       - notify: false
