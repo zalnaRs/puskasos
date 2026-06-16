@@ -4,11 +4,16 @@ modules:
   - type: dnf
     repos:
       copr:
-        - name: imput/helium
-          chroot: centos-stream-10-x86_64
+        - imput/helium
+        # chroot: centos-stream-10-x86_64
     install:
       packages:
         - helium-bin
+
+  - type: dnf
+    remove:
+      packages:
+        - mediawriter
 
   - type: default-flatpaks
     configurations:
