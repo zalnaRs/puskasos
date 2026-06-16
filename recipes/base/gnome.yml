@@ -20,6 +20,7 @@ modules:
     install:
       - AppIndicator and KStatusNotifierItem Support
       - 1160 # dash to panel
+      - 3628 # arc menu
 
   - type: gschema-overrides
     include:

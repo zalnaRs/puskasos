@@ -1,5 +1,5 @@
 FROM ghcr.io/zalnars/puskasos:br-stable-minimal-10
-RUN dnf install -y anaconda anaconda-gui anaconda-install-env-deps anaconda-dracut dracut-config-generic dracut-network net-tools squashfs-tools grub2-efi-x64-cdboot python3-mako lorax-templates-* biosdevname prefixdevname && dnf clean all
+RUN dnf install -y anaconda anaconda-gui xorg-x11-xinit anaconda-install-env-deps anaconda-dracut dracut-config-generic dracut-network net-tools squashfs-tools grub2-efi-x64-cdboot python3-mako lorax-templates-* biosdevname prefixdevname && dnf clean all
 
 RUN dnf reinstall -y shim-x64
 
