@@ -10,9 +10,9 @@ on:
     paths-ignore: # don't rebuild if only documentation has changed
       - "**.md"
 
- # pull_request:
- #   branches:
- #     - another-branch # TODO: Replace 'another-branch' with the actual branch name
+  # pull_request:
+  #   branches:
+  #     - another-branch # TODO: Replace 'another-branch' with the actual branch name
 
   workflow_dispatch: # allow manually triggering builds
 concurrency:
@@ -32,8 +32,8 @@ jobs:
       matrix:
         recipe:
           # !! Add your recipes here
-          - base/minimal.yml
-          - base/kde.yml
+          # - base/minimal.yml
+          # - base/kde.yml
           - base/gnome.yml
     steps:
       # the build is fully handled by the reusable github action

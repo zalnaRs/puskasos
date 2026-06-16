@@ -14,8 +14,8 @@ modules:
   - type: dnf
     install:
       packages:
-        - podman-compose.noarch
-        - podman-docker.noarch
+        - podman-compose
+        - podman-docker
 
   - type: systemd
     system:

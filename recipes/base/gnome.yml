@@ -8,7 +8,7 @@ alt-tags:
   - gnome
 
 # the base image to build on top of (FROM) and the version tag to use
-base-image: quay.io/almalinuxorg/atomic-desktop-gnome
+base-image: quay.io/fedora/fedora-silverblue
 #base-image: quay.io/fedora/fedora-kinoite
 image-version: 10 # latest is also supported if you want new updates ASAP
 
@@ -25,11 +25,6 @@ modules:
   - type: gschema-overrides
     include:
       - dashtopanel.gschema.override
-
-  - type: systemd
-    system:
-      enabled:
-        - gdm.service
 
   - type: default-flatpaks
     configurations:
