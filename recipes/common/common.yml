@@ -7,15 +7,14 @@ modules:
       - source: base/system
         destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
-  - type: containerfile
-    snippets:
-      - LABEL org.containers.bootc.image="ghcr.io/zalnars/puskasos:br-stable-10"
-
   - type: dnf
     install:
       packages:
         - podman-compose
         - podman-docker
+    remove:
+      packages:
+        - fedora-flathub-remote
 
   - type: systemd
     system:

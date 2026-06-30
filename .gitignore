@@ -4,4 +4,4 @@ cosign.private
 
 # bootc-image-builder
 output
-config.toml
+config.toml/.bluebuild-scripts_*

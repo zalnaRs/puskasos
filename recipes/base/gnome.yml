@@ -24,7 +24,7 @@ modules:
 
   - type: gschema-overrides
     include:
-      - dashtopanel.gschema.override
+      - extensions.gschema.override
 
   - type: default-flatpaks
     configurations:
