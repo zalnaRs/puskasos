@@ -33,7 +33,7 @@ jobs:
         recipe:
           # !! Add your recipes here
           # - base/minimal.yml
-          # - base/kde.yml
+          - base/kde.yml
           - base/gnome.yml
     steps:
       # the build is fully handled by the reusable github action
