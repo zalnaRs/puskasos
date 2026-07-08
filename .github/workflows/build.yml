@@ -6,7 +6,7 @@ on:
   # (20 minutes after last ublue images start building)
   push:
     branches:
-      - stable # TODO: Replace 'another-branch' with the actual branch name
+      - main # TODO: Replace 'another-branch' with the actual branch name
     paths-ignore: # don't rebuild if only documentation has changed
       - "**.md"
 
