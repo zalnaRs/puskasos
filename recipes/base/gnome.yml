@@ -24,7 +24,7 @@ modules:
 
   - type: gschema-overrides
     include:
-      - extensions.gschema.override
+      - zz1-extensions.gschema.override
 
   - type: default-flatpaks
     configurations:
