@@ -21,6 +21,8 @@ modules:
       - AppIndicator and KStatusNotifierItem Support
       - 1160 # dash to panel
       - 3628 # arc menu
+      - 779 # clipboard indicator
+      - 517 # caffeine
 
   - type: gschema-overrides
     include:

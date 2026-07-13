@@ -11,9 +11,10 @@ modules:
         - helium-bin
 
   - type: dnf
-    remove:
+    group-install:
+      with-optional: true
       packages:
-        - mediawriter
+        - virtualization
 
   - type: default-flatpaks
     configurations:
