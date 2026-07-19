@@ -30,7 +30,8 @@ modules:
 
   - type: default-flatpaks
     configurations:
-      - notify: false
+      - notify: true
         scope: system
         install:
           - com.github.tchx84.Flatseal
+          - com.mattjakeman.ExtensionManager
