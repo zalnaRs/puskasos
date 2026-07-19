@@ -1,2 +1,2 @@
 [org.gnome.shell]
-enabled-extensions='["appindicatorsupport@rgcjonas.gmail.com","caffeine@patapon.info","clipboard-indicator@tudmotu.com","background-logo@fedorahosted.org","dash-to-panel@jderose9.github.com", "arcmenu@arcmenu.com"]'
+enabled-extensions=["appindicatorsupport@rgcjonas.gmail.com","caffeine@patapon.info","clipboard-indicator@tudmotu.com","background-logo@fedorahosted.org","dash-to-panel@jderose9.github.com", "arcmenu@arcmenu.com"]
