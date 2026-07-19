@@ -16,6 +16,11 @@ modules:
   - from-file: common/common.yml
   - from-file: common/common-desktop.yml
 
+  - type: files
+    files:
+      - source: gnome/system
+        destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
+
   - type: gnome-extensions
     install:
       - AppIndicator and KStatusNotifierItem Support
@@ -24,9 +29,13 @@ modules:
       - 779 # clipboard indicator
       - 517 # caffeine
 
-  - type: gschema-overrides
-    include:
-      - zz1-extensions.gschema.override
+  #- type: gschema-overrides
+  #  include:
+  #    - zz1-extensions.gschema.override
+
+  - type: bling
+    install:
+      - dconf-update-service
 
   - type: default-flatpaks
     configurations:
