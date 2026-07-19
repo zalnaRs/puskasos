@@ -23,8 +23,8 @@ modules:
 
   - type: default-flatpaks
     configurations:
-      - notify: false # Send notification after install/uninstall is finished (true/false)
-        scope: system
-        install:
-          - org.freedesktop.Platform.ffmpeg-full
+      #- notify: false # Send notification after install/uninstall is finished (true/false)
+      #scope: system
+      #install:
+      #  - org.freedesktop.Platform.ffmpeg-full
       - scope: user # Also add Flathub user repo, but no user packages
