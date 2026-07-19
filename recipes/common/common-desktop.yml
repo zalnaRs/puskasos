@@ -10,6 +10,11 @@ modules:
       packages:
         - helium-bin
 
+  - type: systemd
+    system:
+      disabled:
+        - packagekit.service
+
   - type: dnf
     group-install:
       with-optional: true
