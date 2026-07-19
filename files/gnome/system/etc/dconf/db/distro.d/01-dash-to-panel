@@ -1,6 +1,3 @@
-[org/gnome/shell]
-enabled-extensions='["appindicatorsupport@rgcjonas.gmail.com","caffeine@patapon.info","clipboard-indicator@tudmotu.com","background-logo@fedorahosted.org","dash-to-panel@jderose9.github.com", "arcmenu@arcmenu.com"]'
-
 [org/gnome/shell/extensions/dash-to-panel]
 animate-appicon-hover=true
 animate-appicon-hover-animation-convexity={'RIPPLE': 2.0, 'PLANK': 1.0, 'SIMPLE': 0.0}

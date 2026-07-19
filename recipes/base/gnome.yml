@@ -29,9 +29,9 @@ modules:
       - 779 # clipboard indicator
       - 517 # caffeine
 
-  #- type: gschema-overrides
-  #  include:
-  #    - zz1-extensions.gschema.override
+  - type: gschema-overrides
+    include:
+      - zz1-extensions.gschema.override
 
   - type: bling
     install:
