@@ -27,7 +27,8 @@ modules:
     properties:
       NAME: PuskasOS
       PRETTY_NAME: PuskasOS
-      HOME_URL: "https://puskas.hu"
+      VERSION: "1.0"
+      HOME_URL: "https://puskasos.014321.xyz"
       #      ID: fedora
       #     ID_LIKE: iulbos
 
