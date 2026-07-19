@@ -13,7 +13,7 @@ modules:
   - type: systemd
     system:
       disabled:
-        - packagekit.service
+        - dnf5daemon-server.service # gnome software integration
 
   - type: dnf
     group-install:
