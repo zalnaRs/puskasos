@@ -10,12 +10,12 @@ modules:
       packages:
         - helium-bin
 
-  - type: containerfile
-    snippets:
-      - RUN xdg-settings set default-web-browser helium.desktop
-      - RUN xdg-mime default helium.desktop x-scheme-handler/http
-      - RUN xdg-mime default helium.desktop x-scheme-handler/https
-      - RUN xdg-mime default helium.desktop text/html
+  # - type: containerfile
+  #   snippets:
+  #     - RUN xdg-settings set default-web-browser helium.desktop
+  #     - RUN xdg-mime default helium.desktop x-scheme-handler/http
+  #     - RUN xdg-mime default helium.desktop x-scheme-handler/https
+  #     - RUN xdg-mime default helium.desktop text/html
 
   - type: systemd
     system:
