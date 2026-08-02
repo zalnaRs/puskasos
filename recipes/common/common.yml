@@ -20,6 +20,7 @@ modules:
     system:
       enabled:
         - bootloader-update.service
+        - puskasos-update.timer
       disabled:
         - NetworkManager-wait-online.service
 
