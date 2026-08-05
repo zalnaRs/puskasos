@@ -28,6 +28,18 @@ modules:
       - 3628 # arc menu
       - 779 # clipboard indicator
       - 517 # caffeine
+      - 2087 # desktop icon ng
+
+  - type: dnf
+    install:
+      packages:
+        - adw-gtk3-theme
+
+  - type: dnf
+    install:
+      packages:
+        - loupe # image viewer
+        - celluloid # video player
 
   - type: gschema-overrides
     include:
