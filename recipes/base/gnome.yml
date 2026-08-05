@@ -44,6 +44,7 @@ modules:
   - type: gschema-overrides
     include:
       - zz1-extensions.gschema.override
+      - zz1-theme.gschema.override
 
   - type: bling
     install:
