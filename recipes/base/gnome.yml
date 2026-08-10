@@ -41,6 +41,11 @@ modules:
         - loupe # image viewer
         - celluloid # video player
 
+  - type: dnf
+    remove:
+      packages:
+        - gnome-system-monitor
+
   - type: gschema-overrides
     include:
       - zz1-extensions.gschema.override
@@ -57,3 +62,5 @@ modules:
         install:
           - com.github.tchx84.Flatseal
           - com.mattjakeman.ExtensionManager
+          - io.missioncenter.MissionCenter
+          - io.github.kolunmi.Bazaar
