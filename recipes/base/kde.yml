@@ -20,4 +20,10 @@ modules:
       - source: kde/system
         destination: /
 
+  - type: dnf
+    install:
+      packages:
+        - haruna # video player
+        - gwenview # image viewer
+
   - from-file: common/common-desktop.yml
