@@ -17,11 +17,6 @@ modules:
   #     - RUN xdg-mime default helium.desktop x-scheme-handler/https
   #     - RUN xdg-mime default helium.desktop text/html
 
-  - type: systemd
-    system:
-      disabled:
-        - dnf5daemon-server.service # gnome software integration
-
   - type: dnf
     group-install:
       with-optional: true

@@ -55,6 +55,11 @@ modules:
     install:
       - dconf-update-service
 
+  - type: systemd
+    system:
+      disabled:
+        - dnf5daemon-server.service # gnome software integration
+
   - type: default-flatpaks
     configurations:
       - notify: false
