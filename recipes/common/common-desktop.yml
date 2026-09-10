@@ -26,7 +26,7 @@ modules:
   - type: default-flatpaks
     configurations:
       #- notify: false # Send notification after install/uninstall is finished (true/false)
-      #scope: system
-      #install:
-      #  - org.freedesktop.Platform.ffmpeg-full
+      - scope: system
+        install:
+          - org.remmina.Remmina
       - scope: user # Also add Flathub user repo, but no user packages
