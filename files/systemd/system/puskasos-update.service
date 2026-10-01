@@ -1,0 +1,6 @@
+[Unit]
+Description=Update PuskasOS
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bootc update
