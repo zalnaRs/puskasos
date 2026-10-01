@@ -46,3 +46,4 @@ modules:
         install:
           - com.github.tchx84.Flatseal
           - org.gnome.TextEditor
+          - com.github.flxzt.rnote
