@@ -23,7 +23,7 @@ modules:
 
   - type: gnome-extensions
     install:
-      - AppIndicator and KStatusNotifierItem Support
+      - 615 # appindicators
       - 1160 # dash to panel
       - 3628 # arc menu
       - 779 # clipboard indicator
@@ -66,6 +66,8 @@ modules:
         scope: system
         install:
           - com.github.tchx84.Flatseal
+          - org.gnome.TextEditor
+          - com.github.flxzt.rnote
           - com.mattjakeman.ExtensionManager
           - io.missioncenter.MissionCenter
           - io.github.kolunmi.Bazaar
