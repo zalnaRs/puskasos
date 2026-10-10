@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+FLAVOR="${1:-gnome}"
+
+case "$FLAVOR" in
+  gnome|kde)
+    ;;
+  *)
+    echo "Usage: $0 {gnome|kde}"
+    exit 1
+    ;;
+esac
+
+BUILD_DIR="build/puskasos-${FLAVOR}"
+IMAGE="ghcr.io/zalnars/puskasos:${FLAVOR}"
+ISO_NAME="puskasos-${FLAVOR}-$(date +%Y.%m.%d.%H.%M).iso"
+
+mkdir -p "$BUILD_DIR"
+
+pushd "$BUILD_DIR" >/dev/null
+
+sudo bluebuild generate-iso \
+  -V kinoite \
+  --platform linux/amd64/v2 \
+  --iso-name "$ISO_NAME" \
+  --secure-boot-url "https://puskasos.014321.xyz/download/public_key.der" \
+  --enrollment-password="puskasos" \
+  image "$IMAGE"
+
+WEBSEED="https://puskasos.014321.xyz/downloads/puskasos-${FLAVOR}"
+TORRENT="${ISO_NAME%.iso}.torrent"
+
+mktorrent \
+  -a "udp://tracker-udp.gbitt.info:80/announce" \
+  -a "udp://tracker.torrent.eu.org:451/announce" \
+  -w "$WEBSEED" \
+  -o "$TORRENT" \
+  "$ISO_NAME"
+
+md5sum "$ISO_NAME" > "$ISO_NAME-CHECKSUM"
+
+echo "Created:"
+echo "  $BUILD_DIR/$ISO_NAME"
+echo "  $BUILD_DIR/$TORRENT"
+echo "  $BUILD_DIR/$ISO_NAME-CHECKSUM"
+
+popd >/dev/null
