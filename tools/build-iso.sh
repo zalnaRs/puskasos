@@ -16,6 +16,7 @@ BUILD_DIR="build/puskasos-${FLAVOR}"
 IMAGE="ghcr.io/zalnars/puskasos:${FLAVOR}"
 ISO_NAME="puskasos-${FLAVOR}-$(date +%Y.%m.%d.%H.%M).iso"
 
+rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 
 pushd "$BUILD_DIR" >/dev/null
@@ -40,9 +41,22 @@ mktorrent \
 
 md5sum "$ISO_NAME" > "$ISO_NAME-CHECKSUM"
 
+$BUILD_DIR/latest.html << EOF
+<!doctype html><html><head><meta charset="UTF-8"><meta http-equiv=refresh content="0;url=https://puskasos.014321.xyz/download/puskasos-$FLAVOR/$ISO_NAME"/></head></html>
+EOF
+$BUILD_DIR/latest-checksum.html << EOF
+<!doctype html><html><head><meta charset="UTF-8"><meta http-equiv=refresh content="0;url=https://puskasos.014321.xyz/download/puskasos-$FLAVOR/$ISO_NAME-CHECKSUM"/></head></html>
+EOF
+$BUILD_DIR/latest-torrent.html << EOF
+<!doctype html><html><head><meta charset="UTF-8"><meta http-equiv=refresh content="0;url=https://puskasos.014321.xyz/download/puskasos-$FLAVOR/$TORRENT"/></head></html>
+EOF
+
 echo "Created:"
 echo "  $BUILD_DIR/$ISO_NAME"
 echo "  $BUILD_DIR/$TORRENT"
 echo "  $BUILD_DIR/$ISO_NAME-CHECKSUM"
+echo "  $BUILD_DIR/latest.html"
+echo "  $BUILD_DIR/latest-checksum.html"
+echo "  $BUILD_DIR/latest-torrent.html"
 
 popd >/dev/null
