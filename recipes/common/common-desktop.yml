@@ -10,15 +10,23 @@ modules:
       packages:
         - helium-bin
 
+  # - type: containerfile
+  #   snippets:
+  #     - RUN xdg-settings set default-web-browser helium.desktop
+  #     - RUN xdg-mime default helium.desktop x-scheme-handler/http
+  #     - RUN xdg-mime default helium.desktop x-scheme-handler/https
+  #     - RUN xdg-mime default helium.desktop text/html
+
   - type: dnf
-    remove:
+    group-install:
+      with-optional: true
       packages:
-        - mediawriter
+        - virtualization
 
   - type: default-flatpaks
     configurations:
-      - notify: false # Send notification after install/uninstall is finished (true/false)
-        scope: system
+      #- notify: false # Send notification after install/uninstall is finished (true/false)
+      - scope: system
         install:
-          - org.freedesktop.Platform.ffmpeg-full
+          - org.remmina.Remmina
       - scope: user # Also add Flathub user repo, but no user packages

@@ -21,23 +21,44 @@ modules:
       - source: gnome/system
         destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
-
   - type: gnome-extensions
     install:
       - 615 # appindicators
       - 1160 # dash to panel
       - 3628 # arc menu
+      - 779 # clipboard indicator
       - 517 # caffeine
-      - 2087 # desktop icons
-      - 779 # clipboard
+      - 2087 # desktop icon ng
+
+  - type: dnf
+    install:
+      packages:
+        - adw-gtk3-theme
+
+  - type: dnf
+    install:
+      packages:
+        - loupe # image viewer
+        - celluloid # video player
+
+  - type: dnf
+    remove:
+      packages:
+        - gnome-system-monitor
 
   - type: gschema-overrides
     include:
       - zz1-extensions.gschema.override
+      - zz1-theme.gschema.override
 
   - type: bling
     install:
       - dconf-update-service
+
+  - type: systemd
+    system:
+      disabled:
+        - dnf5daemon-server.service # gnome software integration
 
   - type: default-flatpaks
     configurations:
@@ -47,3 +68,6 @@ modules:
           - com.github.tchx84.Flatseal
           - org.gnome.TextEditor
           - com.github.flxzt.rnote
+          - com.mattjakeman.ExtensionManager
+          - io.missioncenter.MissionCenter
+          - io.github.kolunmi.Bazaar
