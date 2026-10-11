@@ -20,6 +20,10 @@ modules:
       - source: hyprland/system
         destination: /
 
+  - type: containerfile
+    snippets:
+      - RUN dnf update --refresh -y
+
   - type: dnf
     install:
       packages:
@@ -163,5 +167,6 @@ modules:
         - libdbusmenu-gtk3-devel
         - playerctl
       install-weak-deps: true
+      skip-broken: true
 
   - from-file: common/common-desktop.yml
