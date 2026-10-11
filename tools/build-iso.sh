@@ -29,7 +29,7 @@ sudo bluebuild generate-iso \
   --enrollment-password="puskasos" \
   image "$IMAGE"
 
-WEBSEED="https://puskasos.014321.xyz/downloads/puskasos-${FLAVOR}"
+WEBSEED="https://puskasos.014321.xyz/download/puskasos-${FLAVOR}/"
 TORRENT="${ISO_NAME%.iso}.torrent"
 
 mktorrent \
@@ -39,15 +39,17 @@ mktorrent \
   -o "$TORRENT" \
   "$ISO_NAME"
 
-md5sum "$ISO_NAME" > "$ISO_NAME-CHECKSUM"
+# not needed as blue-build already creates it
+#md5sum "$ISO_NAME" > "$ISO_NAME-CHECKSUM"
 
-$BUILD_DIR/latest.html << EOF
+touch latest.html latest-checksum.html latest-torrent.html
+cat > latest.html << EOF
 <!doctype html><html><head><meta charset="UTF-8"><meta http-equiv=refresh content="0;url=https://puskasos.014321.xyz/download/puskasos-$FLAVOR/$ISO_NAME"/></head></html>
 EOF
-$BUILD_DIR/latest-checksum.html << EOF
+cat > latest-checksum.html << EOF
 <!doctype html><html><head><meta charset="UTF-8"><meta http-equiv=refresh content="0;url=https://puskasos.014321.xyz/download/puskasos-$FLAVOR/$ISO_NAME-CHECKSUM"/></head></html>
 EOF
-$BUILD_DIR/latest-torrent.html << EOF
+cat > latest-torrent.html << EOF
 <!doctype html><html><head><meta charset="UTF-8"><meta http-equiv=refresh content="0;url=https://puskasos.014321.xyz/download/puskasos-$FLAVOR/$TORRENT"/></head></html>
 EOF
 
