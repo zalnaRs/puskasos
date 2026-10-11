@@ -21,6 +21,20 @@ modules:
         destination: /
 
   - type: dnf
+    install:
+      packages:
+        - ly
+
+  - type: systemd
+    system:
+      enabled:
+        - ly@tty0.service
+        - ly@tty1.service
+      disable:
+        - getty@tty0.service
+        - getty@tty1.service
+
+  - type: dnf
     repos:
       copr:      
         - ririko66z/dots-hyprland
@@ -149,5 +163,5 @@ modules:
         - libdbusmenu-gtk3-devel
         - playerctl
       install-weak-deps: true
-      
+
   - from-file: common/common-desktop.yml
