@@ -25,7 +25,7 @@ sudo bluebuild generate-iso \
   -V kinoite \
   --platform linux/amd64/v2 \
   --iso-name "$ISO_NAME" \
-  --secure-boot-url "https://puskasos.014321.xyz/download/public_key.der" \
+  --secure-boot-url "https://puskasos.014321.xyz/.well-known/public_key.der" \
   --enrollment-password="puskasos" \
   image "$IMAGE"
 
