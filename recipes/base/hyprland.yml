@@ -1,0 +1,152 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+
+name: puskasos
+# description will be included in the image's metadata
+description: The best operating system ever.
+alt-tags:
+  - hyprland
+
+# the base image to build on top of (FROM) and the version tag to use
+base-image: quay.io/fedora/fedora-bootc
+#base-image: quay.io/fedora/fedora-kinoite
+image-version: 44 # latest is also supported if you want new updates ASAP
+
+modules:
+  - from-file: common/common.yml
+
+  - type: files
+    files:
+      - source: hyprland/system
+        destination: /
+
+  - type: dnf
+    repos:
+      copr:
+        - ririko66/dots-hyprland
+        - sdegler/hyprland
+        - deltacopy/darkly
+        - alternateved/eza
+        - atim/starship
+    install:
+      packages:
+        - mpvpaper
+        - plasma-systemmonitor
+        - unzip
+        - fuzzel
+        - glib2
+        - ImageMagick
+        - hypridle
+        - hyprlock
+        - hyprpicker
+        - songrec
+        - translate-shell
+        - qalculate
+        - wlogout
+        - upower
+        - wtype
+        - ydotool
+        - hyprshot
+        - slurp
+        - swappy
+        - tesseract
+        - tesseract-langpack-eng
+        - tesseract-langpack-chi_sim
+        - wf-recorder
+        - quickshell-git
+        - matugen
+        - qt6-qtdeclarative
+        - qt6-qtbase
+        - jemalloc
+        - qt6-qtsvg
+        - pipewire-libs
+        - libxcb
+        - wayland-devel
+        - qt6-qtwayland
+        - qt5-qtwayland
+        - libdrm
+        - breakpad
+        - kf6-kirigami
+        - libunwind-devel
+        - qt6-qt5compat
+        - qt6-qtimageformats
+        - qt6-qtpositioning
+        - qt6-qtquicktimeline
+        - qt6-qtsensors
+        - qt6-qttools
+        - qt6-qttranslations
+        - qt6-qtvirtualkeyboard
+        - kdialog
+        - kf6-syntax-highlighting
+        - clang
+        - uv
+        - gtk4-devel
+        - libadwaita-devel
+        - libsoup3-devel
+        - libportal-gtk4
+        - gobject-introspection-devel
+        - python3
+        - python3.12
+        - python3-devel
+        - python3.12-devel
+        - xdg-desktop-portal
+        - xdg-desktop-portal-gtk
+        - xdg-desktop-portal-kde
+        - xdg-desktop-portal-hyprland
+        - microtex
+        - bluedevil
+        - gnome-keyring
+        - NetworkManager
+        - plasma-nm
+        - polkit-kde
+        - dolphin
+        - plasma-systemsettings
+        - hyprland
+        - hyprland-guiutils
+        - hyprland-qt-support
+        - hyprsunset
+        - wl-clipboard
+        - adw-gtk3-theme
+        - breeze-cursor-theme
+        - grub2-breeze-theme
+        - breeze-icon-theme
+        - breeze-icon-theme-fedora
+        - kf6-breeze-icons
+        - sddm-breeze
+        - breeze-plus-icon-theme
+        - darkly
+        - eza
+        - fish
+        - fontconfig
+        - kitty
+        - florian-karsten-space-grotesk-fonts
+        - starship
+        - jetbrains-mono-nerd-fonts
+        - google-material-symbols-vf-rounded-fonts
+        - material-icons-fonts
+        - readex-pro-fonts-all
+        - google-rubik-vf-fonts
+        - twitter-twemoji-fonts
+        - google-sans-flex-vf-fonts
+        - bibata-cursor-theme
+        - bc
+        - coreutils
+        - cliphist
+        - cmake
+        - curl
+        - wget2
+        - ripgrep
+        - jq
+        - xdg-utils
+        - rsync
+        - yq
+        - geoclue2
+        - brightnessctl
+        - ddcutil
+        - cava
+        - pavucontrol
+        - wireplumber
+        - libdbusmenu-gtk3-devel
+        - playerctl
+
+  - from-file: common/common-desktop.yml

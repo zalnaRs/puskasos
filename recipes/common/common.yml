@@ -12,6 +12,7 @@ modules:
       packages:
         - podman-compose
         - podman-docker
+        - btop
     remove:
       packages:
         - fedora-flathub-remote
