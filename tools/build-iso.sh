@@ -4,10 +4,10 @@ set -euo pipefail
 FLAVOR="${1:-gnome}"
 
 case "$FLAVOR" in
-  gnome|kde)
+  gnome|kde|hyprland)
     ;;
   *)
-    echo "Usage: $0 {gnome|kde}"
+    echo "Usage: $0 {gnome|kde|hyprland}"
     exit 1
     ;;
 esac
