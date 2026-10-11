@@ -14,6 +14,7 @@ modules:
         - podman-docker
         - btop
         - git
+        - fuse
         - fuse-libs
     remove:
       packages:
