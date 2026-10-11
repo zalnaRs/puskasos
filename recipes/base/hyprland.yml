@@ -22,8 +22,8 @@ modules:
 
   - type: dnf
     repos:
-      copr:
-        - ririko66/dots-hyprland
+      copr:      
+        - ririko66z/dots-hyprland
         - sdegler/hyprland
         - deltacopy/darkly
         - alternateved/eza
@@ -148,5 +148,6 @@ modules:
         - wireplumber
         - libdbusmenu-gtk3-devel
         - playerctl
-
+      install-weak-deps: true
+      
   - from-file: common/common-desktop.yml
