@@ -66,8 +66,8 @@ cat > /usr/share/gnome-shell/search-providers/org.gnome.Software-search-provider
 DefaultDisabled=true
 EOF_GNOME_SOFTWARE
 
-sed -i -e 's/ Fedora/ puskasos/' /usr/share/anaconda/gnome/fedora-welcome || true
-sed -i -e 's/Fedora/puskasos/g' /usr/share/anaconda/gnome/org.fedoraproject.welcome-screen.desktop || true
+sed -i -e 's/ Fedora/ PuskásOS/' /usr/share/anaconda/gnome/fedora-welcome || true
+sed -i -e 's/Fedora/PuskásOS/g' /usr/share/anaconda/gnome/org.fedoraproject.welcome-screen.desktop || true
 
 mkdir -p /etc/anaconda/profile.d
 cat > /etc/anaconda/profile.d/puskasos.conf <<'EOF_PROFILE'
@@ -91,7 +91,7 @@ default_scheme = BTRFS
 btrfs_compression = zstd:1
 default_partitioning =
     /     (min 1 GiB, max 70 GiB)
-    /home (min 500 MiB, free 50 GiB)
+    /home (min 500 MiB, free 25 GiB)
     /var  (btrfs)
 
 [User Interface]
