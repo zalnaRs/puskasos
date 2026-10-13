@@ -1,0 +1,80 @@
+name: Build ISO
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build ${{ matrix.variant }} ISO
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: gnome
+            image_ref: ghcr.io/zalnars/puskasos:gnome
+          - variant: kde
+            image_ref: ghcr.io/zalnars/puskasos:kde
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Free disk space
+        uses: hastd/free-disk-space@68572aeaadb7f76bd408246328e95926323402b5 # v0.1.2
+        with:
+          skip-if-available: "64G"
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman skopeo
+
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build ISO
+        id: build
+        uses: RoyalOughtness/titanoboa@3d19fdfa8bff13542c0bb92620ed7826f1bbe82c # main
+        with:
+          image-ref: ${{ matrix.image_ref }}
+          container-image: ${{ matrix.image_ref }}
+          hook-post-rootfs: ${{ github.workspace }}/.github/workflows/isos/prep_rootfs.sh
+          hook-pre-initramfs: ${{ github.workspace }}/.github/workflows/isos/prep_initramfs.sh
+
+      - name: Rename ISO and create checksum
+        id: package
+        shell: bash
+        env:
+          ISO_DEST: ${{ steps.build.outputs.iso-dest }}
+          VARIANT: ${{ matrix.variant }}
+        run: |
+          output_dir="$(pwd)/output"
+          mkdir -p "${output_dir}"
+
+          iso_name="puskasos-${VARIANT}-$(date +%Y%m%d).iso"
+          mv "${ISO_DEST}" "${output_dir}/${iso_name}"
+
+          (
+            cd "${output_dir}"
+            sha256sum "${iso_name}" | tee "${iso_name}-CHECKSUM"
+          )
+
+          echo "output-directory=${output_dir}" >> "${GITHUB_OUTPUT}"
+
+      - name: Upload ISO artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: puskasos-${{ matrix.variant }}-iso
+          path: ${{ steps.package.outputs.output-directory }}
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0
+          overwrite: true

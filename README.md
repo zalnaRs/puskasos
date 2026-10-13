@@ -32,7 +32,13 @@ The `latest` tag will automatically point to the latest build. That build will s
 
 ## ISO
 
-If build on Fedora Atomic, you can generate an offline ISO with the instructions available [here](https://blue-build.org/how-to/generate-iso/#_top). These ISOs cannot unfortunately be distributed on GitHub for free due to large sizes, so for public projects something else has to be used for hosting.
+You can generate installer ISOs from GitHub Actions:
+
+1. Open **Actions** → **Build ISO** → **Run workflow**.
+2. Wait for both matrix jobs (`gnome` and `kde`) to finish.
+3. Download the `puskasos-gnome-iso` and `puskasos-kde-iso` artifacts from the workflow run.
+
+Each artifact includes an ISO and a SHA256 checksum file. Checksums are currently unsigned.
 
 ## Verification
 
