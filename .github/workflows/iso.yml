@@ -45,7 +45,7 @@ jobs:
         id: build
         env:
           IMAGE_REF: ghcr.io/zalnars/puskasos:${{ matrix.variant }}
-        uses: RoyalOughtness/titanoboa@3d19fdfa8bff13542c0bb92620ed7826f1bbe82c # main
+        uses: ublue-os/titanoboa@main
         with:
           image-ref: ${{ matrix.image_ref }}
           hook-post-rootfs: ${{ github.workspace }}/.github/workflows/isos/prep_rootfs.sh
