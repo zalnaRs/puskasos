@@ -24,24 +24,23 @@ sed -i '/^Prepend=/s/$/;liveinst.desktop/' /usr/share/kde-settings/kde-profile/d
 
 # Require the embedded installer image in containers-storage to satisfy the
 # same sigstore policy used for registry pulls.
-if command -v jq >/dev/null 2>&1 && [[ -f /etc/containers/policy.json ]]; then
-  jq --arg image_ref "ghcr.io/zalnars/puskasos" \
-      '.transports["containers-storage"][""] =
-      [
-          {
-              "type": "sigstoreSigned",
-              "keyPaths": [
-                  "/usr/share/pki/containers/puskasos.pub",
-                  "/usr/share/pki/containers/puskasos-2025.pub"
-              ],
-              "signedIdentity": {
-                  "type": "exactRepository",
-                  "dockerRepository": $image_ref
-              }
-          }
-      ]' /etc/containers/policy.json | tee /etc/containers/policy.json.tmp >/dev/null
-  mv /etc/containers/policy.json.tmp /etc/containers/policy.json
-fi
+#if command -v jq >/dev/null 2>&1 && [[ -f /etc/containers/policy.json ]]; then
+#  jq --arg image_ref "ghcr.io/zalnars/puskasos" \
+#      '.transports["containers-storage"][""] =
+#      [
+#          {
+#              "type": "sigstoreSigned",
+#              "keyPaths": [
+#                  "/usr/share/pki/containers/cosign.pub"
+#              ],
+#              "signedIdentity": {
+#                  "type": "exactRepository",
+#                  "dockerRepository": $image_ref
+#              }
+#          }
+#      ]' /etc/containers/policy.json | tee /etc/containers/policy.json.tmp >/dev/null
+#  mv /etc/containers/policy.json.tmp /etc/containers/policy.json
+#fi
 
 # Disable suspend/sleep during live environment and initial setup
 # This prevents the system from suspending during installation or first-boot user creation
@@ -62,9 +61,9 @@ sed -i '/^UMASK[[:blank:]]/s/027/022/' /etc/login.defs || true
 rm -f /etc/xdg/autostart/org.gnome.Software.desktop
 
 # disable the gnome-software shell search provider
-cat > /usr/share/gnome-shell/search-providers/org.gnome.Software-search-provider.ini <<'EOF_GNOME_SOFTWARE'
+echo '
 DefaultDisabled=true
-EOF_GNOME_SOFTWARE
+' > /usr/share/gnome-shell/search-providers/org.gnome.Software-search-provider.ini
 
 sed -i -e 's/ Fedora/ PuskásOS/' /usr/share/anaconda/gnome/fedora-welcome || true
 sed -i -e 's/Fedora/PuskásOS/g' /usr/share/anaconda/gnome/org.fedoraproject.welcome-screen.desktop || true
@@ -142,19 +141,18 @@ echo -e "$ENROLLMENT_PASSWORD\n$ENROLLMENT_PASSWORD" | mokutil --import "$SECURE
 EOF_SB
 
 # Interactive Kickstart
-touch /usr/share/anaconda/interactive-defaults.ks
-grep -q "^ostreecontainer --url=${IMAGE_REF}:${IMAGE_TAG} --transport=containers-storage$" /usr/share/anaconda/interactive-defaults.ks || cat >> /usr/share/anaconda/interactive-defaults.ks <<EOF_KS
+tee -a /usr/share/anaconda/interactive-defaults.ks <<EOF
 ostreecontainer --url=${IMAGE_REF}:${IMAGE_TAG} --transport=containers-storage
 %include /usr/share/anaconda/post-scripts/install-configure-upgrade.ks
 %include /usr/share/anaconda/post-scripts/secureboot-enroll-key.ks
-EOF_KS
+EOF
 
 # Signed Images
-cat > /usr/share/anaconda/post-scripts/install-configure-upgrade.ks <<EOF_SWITCH
+tee /usr/share/anaconda/post-scripts/install-configure-upgrade.ks <<EOF
 %post --erroronfail
-bootc switch --mutate-in-place --transport registry ${IMAGE_REF}:${IMAGE_TAG}
+bootc switch --mutate-in-place --enforce-container-sigpolicy --transport registry ${IMAGE_REF}:${IMAGE_TAG}
 %end
-EOF_SWITCH
+EOF
 
 # enable xwayland
 rm -f /etc/sway/config.d/99-noxwayland.conf /etc/systemd/user/org.gnome.Shell@user.service.d/override.conf /etc/systemd/user/plasma-kwin_wayland.service.d/override.conf
