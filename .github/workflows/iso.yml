@@ -12,7 +12,7 @@ jobs:
     name: Build ${{ matrix.variant }} ISO
     runs-on: ubuntu-26.04
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
           - variant: gnome
