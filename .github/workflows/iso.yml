@@ -43,8 +43,6 @@ jobs:
 
       - name: Build ISO
         id: build
-        env:
-          IMAGE_REF: ghcr.io/zalnars/puskasos:${{ matrix.variant }}
         uses: ublue-os/titanoboa@main
         with:
           image-ref: ${{ matrix.image_ref }}
