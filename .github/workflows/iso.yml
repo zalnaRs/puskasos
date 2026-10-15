@@ -10,7 +10,7 @@ concurrency:
 jobs:
   build:
     name: Build ${{ matrix.variant }} ISO
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -36,15 +36,25 @@ jobs:
         with:
           persist-credentials: false
 
+      # - name: Build ISO
+      #   id: build
+      #   env:
+      #     IMAGE_REF: ${{ matrix.image_ref }}
+      #   uses: RoyalOughtness/titanoboa@3d19fdfa8bff13542c0bb92620ed7826f1bbe82c # main
+      #   with:
+      #     image-ref: ${{ matrix.image_ref }}
+      #     hook-post-rootfs: ${{ github.workspace }}/.github/workflows/isos/prep_rootfs.sh
+      #     hook-pre-initramfs: ${{ github.workspace }}/.github/workflows/isos/prep_initramfs.sh
+
       - name: Build ISO
         id: build
-        env:
-          IMAGE_REF: ${{ matrix.image_ref }}
-        uses: RoyalOughtness/titanoboa@3d19fdfa8bff13542c0bb92620ed7826f1bbe82c # main
+        uses: ublue-os/titanoboa@main
         with:
-          image-ref: ${{ matrix.image_ref }}
+          image-ref: ${{ steps.image_ref.outputs.image_ref }}:${{ matrix.image_version }}
+          #flatpaks-list: ${{ github.workspace }}/iso_files/system-flatpaks.list
           hook-post-rootfs: ${{ github.workspace }}/.github/workflows/isos/prep_rootfs.sh
           hook-pre-initramfs: ${{ github.workspace }}/.github/workflows/isos/prep_initramfs.sh
+          #kargs: ${{ steps.image_ref.outputs.kargs }}
 
       - name: Rename ISO and create checksum
         id: package
