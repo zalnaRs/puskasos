@@ -35,7 +35,7 @@ jobs:
           # - base/minimal.yml
           - base/kde.yml
           - base/gnome.yml
-          - base/hyprland.yml
+          #- base/hyprland.yml
     steps:
       # the build is fully handled by the reusable github action
       - name: Build Custom Image
