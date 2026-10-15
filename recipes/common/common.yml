@@ -16,6 +16,7 @@ modules:
         - git
         - fuse
         - fuse-libs
+        - distrobox
     remove:
       packages:
         - fedora-flathub-remote
