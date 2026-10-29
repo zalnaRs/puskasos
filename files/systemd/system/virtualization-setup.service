@@ -1,6 +1,6 @@
 [Unit]
 Description=Prepare libvirt
-Before=libvirtd.service
+After=libvirtd.service
 Wants=libvirtd.service
 
 [Service]
@@ -11,7 +11,8 @@ ExecStart=/bin/bash -c '\
   fi; \
   chown tss:tss /var/lib/swtpm-localca; \
   restorecon -rv /var/lib/libvirt; \
-  restorecon -rv /var/log/libvirt \
+  restorecon -rv /var/log/libvirt; \
+  systemctl restart libvirtd \
 '
 RemainAfterExit=yes
 
