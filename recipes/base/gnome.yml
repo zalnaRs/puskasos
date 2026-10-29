@@ -29,7 +29,11 @@ modules:
       - 779 # clipboard indicator
       - 517 # caffeine
       - 2087 # desktop icon ng
-
+ 
+  - type: containerfile
+    snippets:
+      - RUN chmod +x /usr/share/gnome-shell/extensions/ding@rastersoft.com/app/*.js
+      
   - type: dnf
     install:
       packages:
