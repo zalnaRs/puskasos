@@ -26,7 +26,7 @@ modules:
       enabled:
         - bootloader-update.service
         - puskasos-update.timer
-        - virtualization-setup.service
+        # - virtualization-setup.service
       disabled:
         - NetworkManager-wait-online.service
 
